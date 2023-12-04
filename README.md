@@ -2,6 +2,10 @@
 
 Using Javascript to write stupid algorithms and get those sweet stars.
 
+## New puzzle
+
+Run `node ./create.js` to solve a new puzzle. It goes through the list of puzzles already solved and creates a new directory and files for the new puzzle.
+
 ## Running
 
 To get answers you need to provide `prod-1-input.txt` and `prod-2-input.txt` if needed, feel them with the text input you get from the advent of code website.
