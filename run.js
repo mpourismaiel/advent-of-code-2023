@@ -15,6 +15,14 @@ const openFile = (day, dev, isInput, n) => {
   }
 };
 
+const time = (label) => {
+  const start = performance.now();
+  return () => {
+    const end = performance.now();
+    console.log(`==> ${label}: Execution time: ${end - start} ms`);
+  };
+};
+
 const run = (day) => {
   const days = fs
     .readdirSync(".")
@@ -46,6 +54,7 @@ const run = (day) => {
     input1: dataTest1Input,
     input2: dataTest2Input,
   });
+
   const dataProd1Input = openFile(day, false, true, 1);
   const dataProd2Input = openFile(day, false, true, 2) || dataProd1Input;
   const prod = require(dayPath)({
@@ -56,7 +65,9 @@ const run = (day) => {
   if (!dataTest1Input || !dataTest1Expect) {
     console.log(`Part 1 TEST data not found.`);
   } else {
+    const test1Timer = time("Test 1");
     const result1 = test.next();
+    test1Timer();
     if (result1.value + "" !== dataTest1Expect.trim()) {
       console.log(
         `Part 1 TEST failed. Expected:\n${dataTest1Expect.trim()}\nGot:\n${
@@ -71,14 +82,18 @@ const run = (day) => {
   if (!dataProd1Input) {
     console.log(`Part 1 PROD data not found.`);
   } else {
+    const prod1Timer = time("Prod 1");
     const result1 = prod.next();
+    prod1Timer();
     console.log(`Part 1 PROD:\n${result1.value}\n`);
   }
 
   if (!dataTest2Input || !dataTest2Expect) {
     console.log(`Part 2 TEST data not found.`);
   } else {
+    const test2Timer = time("Test 2");
     const result2 = test.next();
+    test2Timer();
     if (result2.value + "" !== dataTest2Expect.trim()) {
       console.log(
         `Part 2 TEST failed. Expected:\n${dataTest2Expect.trim()}\nGot:\n${
@@ -93,7 +108,9 @@ const run = (day) => {
   if (!dataProd2Input) {
     console.log(`Part 2 PROD data not found.`);
   } else {
+    const prod2Timer = time("Prod 2");
     const result2 = prod.next();
+    prod2Timer();
     console.log(`Part 2 PROD:\n${result2.value}\n`);
   }
 };
