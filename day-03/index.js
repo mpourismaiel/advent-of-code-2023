@@ -1,11 +1,10 @@
+const { slice2DArray } = require("../utils/array");
+
 module.exports = function* ({ input1, input2 }) {
   const data = input1
     .trim()
     .split("\n")
     .map((line) => line.split(""));
-
-  const slice2DArray = (arr, x1, y1, x2, y2) =>
-    arr.slice(y1, y2 + 1).map((line) => line.slice(x1, x2 + 1));
 
   const sliceHasSymbol = (y, x1, x2) => {
     const y1 = y - 1 < 0 ? 0 : y - 1;
