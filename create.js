@@ -16,7 +16,8 @@ if (!lastDay) {
 }
 
 const day = lastDay + 1;
-const dir = `./day-${day < 10 ? "0" + day : day}`;
+const paddedDay = day.toString().padStart(2, "0");
+const dir = `./day-${paddedDay}`;
 fs.mkdirSync(dir);
 fs.writeFileSync(
   `${dir}/index.js`,
@@ -30,3 +31,5 @@ fs.writeFileSync(`${dir}/test-1-input.txt`, "");
 fs.writeFileSync(`${dir}/test-1-expect.txt`, "");
 fs.writeFileSync(`${dir}/test-2-input.txt`, "");
 fs.writeFileSync(`${dir}/test-2-expect.txt`, "");
+console.log(`Created day ${paddedDay}!
+Run by executing: node ./run.js ${paddedDay}`);
