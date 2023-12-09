@@ -7,6 +7,8 @@ const slice2DArray = (arr, x1, y1, x2, y2) =>
 
 const reduceSum = (acc, curr) => acc + curr;
 
+const reduceMax = (acc, curr) => Math.max(acc, curr);
+
 const splitByDelimiter = (str, delimiter = " ", slice = 0) =>
   str
     .split(delimiter)
@@ -26,6 +28,7 @@ module.exports = {
   similarItems,
   slice2DArray,
   reduceSum,
+  reduceMax,
   splitByDelimiter,
   newArrayOfLength,
   loopBy,
