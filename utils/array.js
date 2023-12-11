@@ -24,6 +24,31 @@ const loopBy = (length, callback) => {
   }
 };
 
+const findIn2DArray = (arr, item) => {
+  const flat = arr.flat();
+  const index = flat.indexOf(item);
+  const y = Math.floor(index / arr[0].length);
+  const x = index % arr[0].length;
+  return [x, y];
+};
+
+const findConnecting = (arr, current, cb) => {
+  const north = [current[0], current[1] - 1];
+  const south = [current[0], current[1] + 1];
+  const east = [current[0] + 1, current[1]];
+  const west = [current[0] - 1, current[1]];
+
+  const directions = [north, south, east, west];
+
+  return directions.filter((direction) => {
+    const [x, y] = direction;
+    if (x < 0 || x >= arr[0].length || y < 0 || y >= arr.length) {
+      return false;
+    }
+    return cb(x, y);
+  });
+};
+
 module.exports = {
   similarItems,
   slice2DArray,
@@ -32,4 +57,6 @@ module.exports = {
   splitByDelimiter,
   newArrayOfLength,
   loopBy,
+  findIn2DArray,
+  findConnecting,
 };
