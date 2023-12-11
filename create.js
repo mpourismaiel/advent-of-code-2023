@@ -6,7 +6,7 @@ const dirs = fs
     (file) => fs.statSync(`./${file}`).isDirectory() && file.startsWith("day-")
   )
   .map((dir) => parseInt(dir.split("-")[1]))
-  .sort();
+  .sort((a, b) => (a < b ? -1 : 1));
 
 const lastDay = dirs[dirs.length - 1] || 0;
 if (!lastDay) {
