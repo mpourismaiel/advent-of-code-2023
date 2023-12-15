@@ -5,6 +5,18 @@ const similarItems = (arr1, arr2) => {
 const slice2DArray = (arr, x1, y1, x2, y2) =>
   arr.slice(y1, y2 + 1).map((line) => line.slice(x1, x2 + 1));
 
+const rotate2DArrayClockwise = (arr) => {
+  const result = [];
+  for (let x = 0; x < arr[0].length; x++) {
+    const line = [];
+    for (let y = arr.length - 1; y >= 0; y--) {
+      line.push(arr[y][x]);
+    }
+    result.push(line);
+  }
+  return result;
+};
+
 const reduceSum = (acc, curr) => acc + curr;
 
 const reduceMax = (acc, curr) => Math.max(acc, curr);
@@ -52,6 +64,7 @@ const findConnecting = (arr, current, cb) => {
 module.exports = {
   similarItems,
   slice2DArray,
+  rotate2DArrayClockwise,
   reduceSum,
   reduceMax,
   splitByDelimiter,
