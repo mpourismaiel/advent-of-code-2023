@@ -115,4 +115,23 @@ const run = (day) => {
   }
 };
 
-run(process.argv[2]);
+if (process.argv[2] === "all") {
+  const days = fs
+    .readdirSync(".")
+    .filter(
+      (file) => fs.lstatSync(file).isDirectory() && file.startsWith("day-")
+    )
+    .sort((a, b) => {
+      const aNum = parseInt(a.split("-")[1]);
+      const bNum = parseInt(b.split("-")[1]);
+      return aNum - bNum;
+    });
+
+  const allTimer = time("Advent of code!");
+  for (const day of days) {
+    run(day.split("-")[1]);
+  }
+  allTimer();
+} else {
+  run(process.argv[2]);
+}
