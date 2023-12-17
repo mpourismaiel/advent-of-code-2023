@@ -1,4 +1,4 @@
-const { reduceSum, rotate2DArrayClockwise } = require("../utils/array");
+import { reduceSum, rotate2DArrayClockwise } from "../utils/array.mjs";
 
 const JSONStripped = (str) => JSON.stringify(str).replace(/[\[\]"]/g, "");
 
@@ -40,7 +40,7 @@ const findSmugdgedSymmetry = (layout) => {
   return 0;
 };
 
-module.exports = function* ({ input1, input2 }) {
+export default function* ({ input1, input2 }) {
   const layouts = input1.split("\n\n").map((str) => str.split("\n"));
   const clockwiseLayouts = layouts.map((layout) =>
     rotate2DArrayClockwise(layout.map((line) => line.split(""))).map((arr) =>
@@ -70,4 +70,4 @@ module.exports = function* ({ input1, input2 }) {
   });
 
   yield result2.reduce(reduceSum);
-};
+}

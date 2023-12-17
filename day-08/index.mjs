@@ -1,6 +1,6 @@
-const { reduceMax } = require("../utils/array");
+import { reduceMax } from "../utils/array.mjs";
 
-module.exports = function* ({ input1, input2 }) {
+export default function* ({ input1, input2 }) {
   const data1 = input1.split("\n").filter(Boolean);
   const instructions1 = data1[0].split("");
   const locations1 = data1.slice(1).reduce((acc, directions) => {
@@ -60,4 +60,4 @@ module.exports = function* ({ input1, input2 }) {
   };
 
   yield lcmN(steps);
-};
+}

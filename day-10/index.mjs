@@ -1,4 +1,4 @@
-const { findIn2DArray, findConnecting } = require("../utils/array");
+import { findIn2DArray, findConnecting } from "../utils/array.mjs";
 
 const startingPoint = "S";
 
@@ -10,7 +10,7 @@ const pipeDirection = {
   7: [0, 1, 0, 1], // south and west.
   F: [-1, 0, 0, 1], // south and east.
 };
-module.exports = function* ({ input1, input2 }) {
+export default function* ({ input1, input2 }) {
   const solvePart1 = () => {
     const pipeMap = input1
       .trim()
@@ -203,4 +203,4 @@ module.exports = function* ({ input1, input2 }) {
   };
 
   yield solvePart2();
-};
+}

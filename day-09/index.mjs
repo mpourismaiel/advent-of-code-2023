@@ -1,4 +1,4 @@
-module.exports = function* ({ input1, input2 }) {
+export default function* ({ input1, input2 }) {
   const getHistory = (report) => {
     const numbers = report.split(/\s+/).map((n) => parseInt(n));
     const history = [numbers];
@@ -58,4 +58,4 @@ module.exports = function* ({ input1, input2 }) {
     .map((report) => getHistory(report))
     .reduce((acc, history) => acc + remember(history), 0);
   yield result2;
-};
+}

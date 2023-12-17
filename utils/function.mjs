@@ -1,4 +1,4 @@
-const memoize = (fn) => {
+export const memoize = (fn) => {
   const stored = new Map();
 
   return (...args) => {
@@ -12,8 +12,4 @@ const memoize = (fn) => {
     stored.set(key, result);
     return result;
   };
-};
-
-module.exports = {
-  memoize,
 };

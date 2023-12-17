@@ -1,9 +1,5 @@
-const {
-  isSame,
-  isIn2DArrayRange,
-  get2DArrayCorner,
-} = require("../utils/array");
-const { PriorityQueue } = require("../utils/queue");
+import { isSame, isIn2DArrayRange, get2DArrayCorner } from "../utils/array.mjs";
+import { PriorityQueue } from "../utils/queue.mjs";
 
 const neighbors = [
   [0, 1],
@@ -12,7 +8,7 @@ const neighbors = [
   [-1, 0],
 ];
 
-module.exports = function* ({ input1, input2 }) {
+export default function* ({ input1, input2 }) {
   const grid = input1.split("\n").map((row) => row.split("").map(Number));
   let result1 = 0;
 
@@ -97,4 +93,4 @@ module.exports = function* ({ input1, input2 }) {
     }
   }
   yield result2;
-};
+}

@@ -1,4 +1,4 @@
-const fs = require("fs");
+import fs from "fs";
 
 const openFile = (day, dev, isInput, n) => {
   try {
@@ -23,7 +23,7 @@ const time = (label) => {
   };
 };
 
-const run = (day) => {
+const run = async (day) => {
   const days = fs
     .readdirSync(".")
     .filter(
@@ -40,24 +40,26 @@ const run = (day) => {
   }
 
   console.log(`Running day ${day}...`);
-  const dayPath = `./day-${day}/index.js`;
+  const dayPath = `./day-${day}/index.mjs`;
   if (!fs.existsSync(dayPath)) {
     console.log(`Day ${day} not found.`);
     return;
   }
 
+  const script = (await import(dayPath)).default;
+
   const dataTest1Input = openFile(day, true, true, 1);
   const dataTest1Expect = openFile(day, true, false, 1);
   const dataTest2Input = openFile(day, true, true, 2) || dataTest1Input;
   const dataTest2Expect = openFile(day, true, false, 2);
-  const test = require(dayPath)({
+  const test = script({
     input1: dataTest1Input,
     input2: dataTest2Input,
   });
 
   const dataProd1Input = openFile(day, false, true, 1);
   const dataProd2Input = openFile(day, false, true, 2) || dataProd1Input;
-  const prod = require(dayPath)({
+  const prod = script({
     input1: dataProd1Input,
     input2: dataProd2Input,
   });

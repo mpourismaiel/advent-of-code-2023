@@ -1,6 +1,6 @@
-const { rotate2DArrayClockwise } = require("../utils/array");
+import { rotate2DArrayClockwise } from "../utils/array.mjs";
 
-module.exports = function* ({ input1, input2 }) {
+export default function* ({ input1, input2 }) {
   const data = input1.split("\n").map((line) => line.split(""));
 
   const rollNorth = (data) => {
@@ -76,4 +76,4 @@ module.exports = function* ({ input1, input2 }) {
   }
 
   yield result2;
-};
+}

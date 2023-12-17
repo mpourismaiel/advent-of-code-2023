@@ -1,4 +1,4 @@
-module.exports = function* ({ input1, input2 }) {
+export default function* ({ input1, input2 }) {
   const processRace = (time, distance) => {
     let result = 0;
 
@@ -26,4 +26,4 @@ module.exports = function* ({ input1, input2 }) {
   const result2 = processRace(parseInt(time), parseInt(distance));
 
   yield result2;
-};
+}

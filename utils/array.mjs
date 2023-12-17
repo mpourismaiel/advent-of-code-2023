@@ -1,4 +1,4 @@
-const getNeighbors = (grid, x, y) => {
+export const getNeighbors = (grid, x, y) => {
   const north = [x, y - 1];
   const south = [x, y + 1];
   const east = [x + 1, y];
@@ -15,21 +15,21 @@ const getNeighbors = (grid, x, y) => {
   });
 };
 
-const get2DArrayCorner = (grid, corner = "topLeft") => {
+export const get2DArrayCorner = (grid, corner = "topLeft") => {
   const x =
     corner === "topLeft" || corner === "bottomLeft" ? 0 : grid[0].length - 1;
   const y = corner === "topLeft" || corner === "topRight" ? 0 : grid.length - 1;
   return [x, y];
 };
 
-const similarItems = (arr1, arr2) => {
+export const similarItems = (arr1, arr2) => {
   return arr1.filter((item) => arr2.includes(item));
 };
 
-const slice2DArray = (arr, x1, y1, x2, y2) =>
+export const slice2DArray = (arr, x1, y1, x2, y2) =>
   arr.slice(y1, y2 + 1).map((line) => line.slice(x1, x2 + 1));
 
-const rotate2DArrayClockwise = (arr) => {
+export const rotate2DArrayClockwise = (arr) => {
   const result = [];
   for (let x = 0; x < arr[0].length; x++) {
     const line = [];
@@ -41,26 +41,27 @@ const rotate2DArrayClockwise = (arr) => {
   return result;
 };
 
-const reduceSum = (acc, curr) => acc + curr;
+export const reduceSum = (acc, curr) => acc + curr;
 
-const reduceMax = (acc, curr) => Math.max(acc, curr);
+export const reduceMax = (acc, curr) => Math.max(acc, curr);
 
-const splitByDelimiter = (str, delimiter = " ", slice = 0) =>
+export const splitByDelimiter = (str, delimiter = " ", slice = 0) =>
   str
     .split(delimiter)
     .slice(slice)
     .map((n) => n.trim())
     .filter(Boolean);
 
-const newArrayOfLength = (length, value) => new Array(length).fill(value);
+export const newArrayOfLength = (length, value) =>
+  new Array(length).fill(value);
 
-const loopBy = (length, callback) => {
+export const loopBy = (length, callback) => {
   for (let i = 0; i < length; i++) {
     callback(i, length);
   }
 };
 
-const findIn2DArray = (arr, item) => {
+export const findIn2DArray = (arr, item) => {
   const flat = arr.flat();
   const index = flat.indexOf(item);
   const y = Math.floor(index / arr[0].length);
@@ -68,7 +69,7 @@ const findIn2DArray = (arr, item) => {
   return [x, y];
 };
 
-const findConnecting = (arr, current, cb) => {
+export const findConnecting = (arr, current, cb) => {
   const north = [current[0], current[1] - 1];
   const south = [current[0], current[1] + 1];
   const east = [current[0] + 1, current[1]];
@@ -85,7 +86,7 @@ const findConnecting = (arr, current, cb) => {
   });
 };
 
-const isSame = (arr1, arr2, guaranteedSameLength = true) => {
+export const isSame = (arr1, arr2, guaranteedSameLength = true) => {
   if (!guaranteedSameLength && arr1.length !== arr2.length) {
     return false;
   }
@@ -99,26 +100,9 @@ const isSame = (arr1, arr2, guaranteedSameLength = true) => {
   return true;
 };
 
-const isIn2DArrayRange = (arr, x, y) => {
+export const isIn2DArrayRange = (arr, x, y) => {
   if (x < 0 || x >= arr[0].length || y < 0 || y >= arr.length) {
     return false;
   }
   return true;
-};
-
-module.exports = {
-  getNeighbors,
-  get2DArrayCorner,
-  similarItems,
-  slice2DArray,
-  rotate2DArrayClockwise,
-  reduceSum,
-  reduceMax,
-  splitByDelimiter,
-  newArrayOfLength,
-  loopBy,
-  findIn2DArray,
-  findConnecting,
-  isSame,
-  isIn2DArrayRange,
 };

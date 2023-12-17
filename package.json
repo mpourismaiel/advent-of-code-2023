@@ -1,0 +1,24 @@
+{
+  "name": "advent-of-code-2023",
+  "version": "1.0.0",
+  "description": "Using Javascript to write stupid algorithms and get those sweet stars.",
+  "main": "run.js",
+  "type": "module",
+  "scripts": {
+    "test": "node run.js all"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mpourismaiel/advent-of-code-2023.git"
+  },
+  "keywords": [
+    "advent-of-code",
+    "code-challenge"
+  ],
+  "author": "Mahdi Pourismaiel",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mpourismaiel/advent-of-code-2023/issues"
+  },
+  "homepage": "https://github.com/mpourismaiel/advent-of-code-2023#readme"
+}

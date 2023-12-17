@@ -1,6 +1,6 @@
-const { reduceSum } = require("../utils/array");
+import { reduceSum } from "../utils/array.mjs";
 
-module.exports = function* ({ input1, input2 }) {
+export default function* ({ input1, input2 }) {
   const result1 = input1
     .replace(/\n/g, "")
     .split(",")
@@ -66,4 +66,4 @@ module.exports = function* ({ input1, input2 }) {
   );
 
   yield result2;
-};
+}

@@ -1,12 +1,11 @@
-const {
+import {
   similarItems,
   reduceSum,
   splitByDelimiter,
-  newArrayOfLength,
   loopBy,
-} = require("../utils/array");
+} from "../utils/array.mjs";
 
-module.exports = function* ({ input1, input2 }) {
+export default function* ({ input1, input2 }) {
   const result1 = input1
     .split("\n")
     .map((line) => {
@@ -51,4 +50,4 @@ module.exports = function* ({ input1, input2 }) {
     });
   });
   yield result2.reduce(reduceSum);
-};
+}

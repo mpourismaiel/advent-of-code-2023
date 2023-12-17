@@ -1,4 +1,4 @@
-class PriorityQueue {
+export class PriorityQueue {
   constructor(compare) {
     this._items = [];
     this._compare = compare;
@@ -58,7 +58,3 @@ class PriorityQueue {
     return this._items[0];
   }
 }
-
-module.exports = {
-  PriorityQueue,
-};

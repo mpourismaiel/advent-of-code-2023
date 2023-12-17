@@ -1,6 +1,6 @@
-const { slice2DArray, reduceSum } = require("../utils/array");
+import { slice2DArray, reduceSum } from "../utils/array.mjs";
 
-module.exports = function* ({ input1, input2 }) {
+export default function* ({ input1, input2 }) {
   const solve = (universe, ageDifference) => {
     const galaxies = [];
     const emptyRows = [];
@@ -61,4 +61,4 @@ module.exports = function* ({ input1, input2 }) {
     1000000
   );
   yield result2;
-};
+}

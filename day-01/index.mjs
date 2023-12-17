@@ -1,4 +1,4 @@
-module.exports = function* ({ input1, input2 }) {
+export default function* ({ input1, input2 }) {
   const result1 = input1
     .split("\n")
     .map((line) =>
@@ -71,4 +71,4 @@ module.exports = function* ({ input1, input2 }) {
   });
 
   yield result2.reduce((acc, cur) => acc + cur, 0);
-};
+}

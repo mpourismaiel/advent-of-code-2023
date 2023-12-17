@@ -1,5 +1,5 @@
-const { memoize } = require("../utils/function");
-const { reduceSum } = require("../utils/array");
+import { memoize } from "../utils/function.mjs";
+import { reduceSum } from "../utils/array.mjs";
 
 const isDamaged = memoize((springs, sizes, groupLength = 0) => {
   if (springs.length === 0) {
@@ -25,7 +25,7 @@ const isDamaged = memoize((springs, sizes, groupLength = 0) => {
   return count;
 });
 
-module.exports = function* ({ input1, input2 }) {
+export default function* ({ input1, input2 }) {
   const result1 = input1
     .trim()
     .split("\n")
@@ -51,4 +51,4 @@ module.exports = function* ({ input1, input2 }) {
     });
 
   yield result2.reduce(reduceSum);
-};
+}

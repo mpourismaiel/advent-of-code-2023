@@ -15,7 +15,7 @@ const cardsJokerMode = [
   "A",
 ];
 
-module.exports = function* ({ input1, input2 }) {
+export default function* ({ input1, input2 }) {
   const calculateResult = (input, jokerMode) => {
     const cardOrder = (jokerMode ? cardsJokerMode : cards).reduce(
       (acc, card, i) => {
@@ -69,4 +69,4 @@ module.exports = function* ({ input1, input2 }) {
 
   const result2 = calculateResult(input2, true);
   yield result2;
-};
+}

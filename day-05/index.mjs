@@ -1,6 +1,4 @@
-const { loopBy } = require("../utils/array");
-
-module.exports = function* ({ input1, input2 }) {
+export default function* ({ input1, input2 }) {
   const almanac = {};
   const seeds = [];
 
@@ -159,4 +157,4 @@ module.exports = function* ({ input1, input2 }) {
   ranges.sort((a, b) => a[0] - b[0]);
 
   yield ranges[0][0];
-};
+}

@@ -1,4 +1,4 @@
-module.exports = function* ({ input1, input2 }) {
+export default function* ({ input1, input2 }) {
   const sets = {
     red: 12,
     green: 13,
@@ -56,4 +56,4 @@ module.exports = function* ({ input1, input2 }) {
     }, 0);
 
   yield result2;
-};
+}

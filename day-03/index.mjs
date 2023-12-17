@@ -1,6 +1,6 @@
-const { slice2DArray } = require("../utils/array");
+import { slice2DArray } from "../utils/array.mjs";
 
-module.exports = function* ({ input1, input2 }) {
+export default function* ({ input1, input2 }) {
   const data = input1
     .trim()
     .split("\n")
@@ -97,4 +97,4 @@ module.exports = function* ({ input1, input2 }) {
   }, 0);
 
   yield result2;
-};
+}

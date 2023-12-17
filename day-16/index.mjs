@@ -1,6 +1,6 @@
 const directions = { left: [-1, 0], right: [1, 0], up: [0, -1], down: [0, 1] };
 
-module.exports = function* ({ input1, input2 }) {
+export default function* ({ input1, input2 }) {
   const grid = input1.split("\n").map((line) => line.split(""));
   let energized = {};
   const walk = (x, y, direction) => {
@@ -91,4 +91,4 @@ module.exports = function* ({ input1, input2 }) {
   }
 
   yield Math.max(...result2);
-};
+}
