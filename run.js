@@ -17,13 +17,20 @@ const openFile = (day, dev, isInput, n) => {
 
 const time = (label) => {
   const start = performance.now();
+  let end;
   return () => {
-    const end = performance.now();
-    console.log(`==> ${label}: Execution time: ${end - start} ms`);
+    if (!end) {
+      end = performance.now();
+      console.log(`==> ${label}: Execution time: ${end - start} ms`);
+    }
+
+    return end - start;
   };
 };
 
 const run = async (day) => {
+  let test1Timer, prod1Timer, test2Timer, prod2Timer;
+
   const days = fs
     .readdirSync(".")
     .filter(
@@ -67,7 +74,7 @@ const run = async (day) => {
   if (!dataTest1Input || !dataTest1Expect) {
     console.log(`Part 1 TEST data not found.`);
   } else {
-    const test1Timer = time("Test 1");
+    test1Timer = time("Test 1");
     const result1 = test.next();
     test1Timer();
     if (result1.value + "" !== dataTest1Expect.trim()) {
@@ -84,7 +91,7 @@ const run = async (day) => {
   if (!dataProd1Input) {
     console.log(`Part 1 PROD data not found.`);
   } else {
-    const prod1Timer = time("Prod 1");
+    prod1Timer = time("Prod 1");
     const result1 = prod.next();
     prod1Timer();
     console.log(`Part 1 PROD:\n${result1.value}\n`);
@@ -93,7 +100,7 @@ const run = async (day) => {
   if (!dataTest2Input || !dataTest2Expect) {
     console.log(`Part 2 TEST data not found.`);
   } else {
-    const test2Timer = time("Test 2");
+    test2Timer = time("Test 2");
     const result2 = test.next();
     test2Timer();
     if (result2.value + "" !== dataTest2Expect.trim()) {
@@ -110,11 +117,18 @@ const run = async (day) => {
   if (!dataProd2Input) {
     console.log(`Part 2 PROD data not found.`);
   } else {
-    const prod2Timer = time("Prod 2");
+    prod2Timer = time("Prod 2");
     const result2 = prod.next();
     prod2Timer();
     console.log(`Part 2 PROD:\n${result2.value}\n`);
   }
+
+  return {
+    test1: test1Timer(), // test1Timer ? test1Timer() : () => "-",
+    prod1: prod1Timer(), // prod1Timer ? prod1Timer() : () => "-",
+    test2: test2Timer(), // test2Timer ? test2Timer() : () => "-",
+    prod2: prod2Timer(), // prod2Timer ? prod2Timer() : () => "-",
+  };
 };
 
 if (process.argv[2] === "all") {
@@ -130,10 +144,37 @@ if (process.argv[2] === "all") {
     });
 
   const allTimer = time("Advent of code!");
+  const results = {};
   for (const day of days) {
-    run(day.split("-")[1]);
+    results[day.split("-")[1]] = await run(day.split("-")[1]);
   }
   allTimer();
+
+  if (process.argv[3] === "benchmark") {
+    let table = `| Day | Part 1 Test | Part 2 Test | Part 1 | Part2 |
+| --- | ----------- | ----------- | ------ | ----- |
+`;
+
+    Object.keys(results)
+      .sort((a, b) => {
+        const aNum = parseInt(a);
+        const bNum = parseInt(b);
+        return aNum - bNum;
+      })
+      .forEach((day) => {
+        const { test1, prod1, test2, prod2 } = results[day];
+        table += `| **${day}**| ${test1.toFixed(4)}ms | ${prod1.toFixed(
+          4
+        )}ms | ${test2.toFixed(4)}ms | ${prod2.toFixed(4)}ms |\n`;
+      });
+
+    const readme = fs.readFileSync("./README.md", "utf8");
+    const readmeMain = readme.split("<!-- benchmark -->")[0];
+    fs.writeFileSync(
+      "./README.md",
+      readmeMain + "<!-- benchmark -->\n" + table
+    );
+  }
 } else {
   run(process.argv[2]);
 }

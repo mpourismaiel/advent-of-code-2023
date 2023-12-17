@@ -20,11 +20,11 @@ const paddedDay = day.toString().padStart(2, "0");
 const dir = `./day-${paddedDay}`;
 fs.mkdirSync(dir);
 fs.writeFileSync(
-  `${dir}/index.js`,
+  `${dir}/index.mjs`,
   `module.exports = function* ({ input1, input2 }) {
-    // TODO: Implement
-    const result1 = input1.split("\\n");
-    yield result1;\n};\n`
+    input1.split("\\n");
+    // yield result for each part
+    yield 0;\n};\n`
 );
 fs.writeFileSync(`${dir}/prod-1-input.txt`, "");
 fs.writeFileSync(`${dir}/test-1-input.txt`, "");
