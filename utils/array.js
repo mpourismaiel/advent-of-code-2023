@@ -1,3 +1,27 @@
+const getNeighbors = (grid, x, y) => {
+  const north = [x, y - 1];
+  const south = [x, y + 1];
+  const east = [x + 1, y];
+  const west = [x - 1, y];
+
+  const directions = [north, south, east, west];
+
+  return directions.filter((direction) => {
+    const [x, y] = direction;
+    if (x < 0 || x >= grid[0].length || y < 0 || y >= grid.length) {
+      return false;
+    }
+    return true;
+  });
+};
+
+const get2DArrayCorner = (grid, corner = "topLeft") => {
+  const x =
+    corner === "topLeft" || corner === "bottomLeft" ? 0 : grid[0].length - 1;
+  const y = corner === "topLeft" || corner === "topRight" ? 0 : grid.length - 1;
+  return [x, y];
+};
+
 const similarItems = (arr1, arr2) => {
   return arr1.filter((item) => arr2.includes(item));
 };
@@ -61,7 +85,30 @@ const findConnecting = (arr, current, cb) => {
   });
 };
 
+const isSame = (arr1, arr2, guaranteedSameLength = true) => {
+  if (!guaranteedSameLength && arr1.length !== arr2.length) {
+    return false;
+  }
+
+  for (let i = 0; i < arr1.length; i++) {
+    if (arr1[i] !== arr2[i]) {
+      return false;
+    }
+  }
+
+  return true;
+};
+
+const isIn2DArrayRange = (arr, x, y) => {
+  if (x < 0 || x >= arr[0].length || y < 0 || y >= arr.length) {
+    return false;
+  }
+  return true;
+};
+
 module.exports = {
+  getNeighbors,
+  get2DArrayCorner,
   similarItems,
   slice2DArray,
   rotate2DArrayClockwise,
@@ -72,4 +119,6 @@ module.exports = {
   loopBy,
   findIn2DArray,
   findConnecting,
+  isSame,
+  isIn2DArrayRange,
 };
