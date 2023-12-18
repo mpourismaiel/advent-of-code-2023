@@ -1,4 +1,4 @@
-const fs = require("fs");
+import fs from "fs";
 // get list of all directories in the current directory and sort them
 const dirs = fs
   .readdirSync(".")
@@ -21,7 +21,7 @@ const dir = `./day-${paddedDay}`;
 fs.mkdirSync(dir);
 fs.writeFileSync(
   `${dir}/index.mjs`,
-  `module.exports = function* ({ input1, input2 }) {
+  `export default function* ({ input1, input2 }) {
     input1.split("\\n");
     // yield result for each part
     yield 0;\n};\n`
