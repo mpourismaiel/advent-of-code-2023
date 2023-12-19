@@ -168,9 +168,9 @@ if (process.argv[2] === "all") {
       })
       .forEach((day) => {
         const { test1, prod1, test2, prod2 } = results[day];
-        table += `| **${day}**| ${test1.toFixed(4)}ms | ${prod1.toFixed(
+        table += `| **${day}**| ${test1.toFixed(4)}ms | ${test2.toFixed(
           4
-        )}ms | ${test2.toFixed(4)}ms | ${prod2.toFixed(4)}ms |\n`;
+        )}ms | ${prod1.toFixed(4)}ms | ${prod2.toFixed(4)}ms |\n`;
       });
 
     const readme = fs.readFileSync("./README.md", "utf8");
