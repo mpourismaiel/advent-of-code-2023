@@ -1,4 +1,5 @@
 import { reduceMax } from "../utils/array.mjs";
+import { lcm } from "../utils/math.mjs";
 
 export default function* ({ input1, input2 }) {
   const data1 = input1.split("\n").filter(Boolean);
@@ -50,14 +51,5 @@ export default function* ({ input1, input2 }) {
     getSteps(locations2.map, instructions2, starting, (l) => l.endsWith("Z"))
   );
 
-  const gcd = (a, b) => (b == 0 ? a : gcd(b, a % b));
-  const lcm = (a, b) => (a * b) / gcd(a, b);
-  const lcmN = (nums) => {
-    if (nums.length == 2) {
-      return lcm(nums[0], nums[1]);
-    }
-    return lcm(nums[0], lcmN(nums.slice(1)));
-  };
-
-  yield lcmN(steps);
+  yield lcm(...steps);
 }
