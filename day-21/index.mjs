@@ -1,5 +1,5 @@
 import { nthValueQuadratic } from "../utils/math.mjs";
-import { assert } from "./helpers.mjs";
+import { assert } from "../utils/helpers.mjs";
 
 const directions = [
   [0, 1],

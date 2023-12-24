@@ -184,10 +184,15 @@ if (process.argv[2] === "all") {
         return aNum - bNum;
       })
       .forEach((day) => {
-        const { test1, prod1, test2, prod2 } = results[day];
-        table += `| **${day}**| ${test1.toFixed(4)}ms | ${test2.toFixed(
-          4
-        )}ms | ${prod1.toFixed(4)}ms | ${prod2.toFixed(4)}ms |\n`;
+        let { test1, prod1, test2, prod2 } = results[day];
+        [test1, prod1, test2, prod2] = [test1, prod1, test2, prod2].map((t) =>
+          t ? parseFloat(t) : null
+        );
+        table += `| **${day}**| ${test1 ? `${test1.toFixed(4)}ms` : "N/A"} | ${
+          test2 ? `${test2.toFixed(4)}ms` : "N/A"
+        } | ${prod1 ? `${prod1.toFixed(4)}ms` : "N/A"} | ${
+          prod2 ? `${prod2.toFixed(4)}ms` : "N/A"
+        } |\n`;
       });
 
     const readme = fs.readFileSync("./README.md", "utf8");

@@ -78,7 +78,7 @@ export default function* ({ input1, input2 }) {
 
   yield highPulses * lowPulses;
 
-  const mods2 = createMods(input1);
+  const mods2 = createMods(input2);
   const finalDestination = "rx";
   const modsConnectedToFinalDestination = mods2[finalDestination].inputs
     .map(([id]) => mods2[id].inputs.map(([id]) => id))
@@ -100,3 +100,5 @@ export default function* ({ input1, input2 }) {
 
   yield lcm(...Object.values(connectionsReachedAt));
 }
+
+export const properties = { hasTest2: false };
