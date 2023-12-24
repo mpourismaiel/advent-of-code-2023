@@ -1,10 +1,10 @@
 import fs from "fs";
 
-const openFile = (day, dev, isInput, n) => {
+const openFile = (day) => (test) => (isInput, n) => {
   try {
     return fs
       .readFileSync(
-        `./day-${day}/${dev ? "test" : "prod"}-${n}-${
+        `./day-${day}/${test ? "test" : "prod"}-${n}-${
           isInput ? "input" : "expect"
         }.txt`,
         "utf8"
@@ -19,15 +19,48 @@ const time = (label) => {
   let start, end;
   return {
     start: () => (start = performance.now()),
+    cancel: () => (end = 0),
     end: () => {
-      if (!end) {
+      if (!end && end !== 0) {
         end = performance.now();
-        console.log(`==> ${label}: Execution time: ${end - start} ms`);
+        console.log(
+          `==> ${label}: Execution time: ${(end - start).toFixed(4)} ms`
+        );
       }
 
-      return end - start;
+      return (end - start).toFixed(4);
     },
   };
+};
+
+const formatValue = (value) => `\x1b[1m${value}\x1b[0m`;
+
+const runPart = async (fn, pre, timer, condition, assert) => {
+  pre = `Part ${pre}`;
+  if (!condition) {
+    console.log(`${pre} not implemented.\n`);
+    timer.cancel();
+    return;
+  }
+
+  timer.start();
+  const result = fn.next();
+  timer.end();
+
+  if (assert) {
+    if (result.value + "" !== assert.trim()) {
+      console.error(
+        `${pre} failed. Expected:\n${assert.trim()}\nGot:\n${formatValue(
+          result.value
+        )}\n\n`
+      );
+      return;
+    }
+    console.log(`${pre} passed! Got: ${formatValue(result.value)}\n`);
+    return;
+  }
+
+  console.log(`${pre}: ${formatValue(result.value)}\n`);
 };
 
 const run = async (day) => {
@@ -53,85 +86,69 @@ const run = async (day) => {
     return;
   }
 
-  const script = (await import(dayPath)).default;
+  const openFileInDay = openFile(day);
+  const openTestFile = openFileInDay(true);
+  const openProdFile = openFileInDay(false);
+  const module = await import(dayPath);
+  const script = module.default;
+  const p = Object.assign(
+    {
+      hasTest1: true,
+      hasTest2: true,
+      hasProd1: true,
+      hasProd2: true,
+    },
+    module.properties || {}
+  );
 
-  const test1Timer = time("Test 1");
-  const prod1Timer = time("Prod 1");
-  const test2Timer = time("Test 2");
-  const prod2Timer = time("Prod 2");
-  const dataTest1Input = openFile(day, true, true, 1);
-  const dataTest1Expect = openFile(day, true, false, 1);
-  const dataTest2Input = openFile(day, true, true, 2) || dataTest1Input;
-  const dataTest2Expect = openFile(day, true, false, 2);
+  const timerT1 = time("Test 1");
+  const timerP1 = time("Prod 1");
+  const timerT2 = time("Test 2");
+  const timerP2 = time("Prod 2");
+
+  const inputTest1 = openTestFile(true, 1);
+  const assertTest1 = openTestFile(false, 1);
+  const inputTest2 = openTestFile(true, 2) || inputTest1;
+  const assertTest2 = openTestFile(false, 2);
+
   const test = script({
-    input1: dataTest1Input,
-    input2: dataTest2Input,
+    input1: inputTest1,
+    input2: inputTest2,
   });
 
-  const dataProd1Input = openFile(day, false, true, 1);
-  const dataProd2Input = openFile(day, false, true, 2) || dataProd1Input;
+  const inputProd1 = openProdFile(true, 1);
+  const inputProd2 = openProdFile(true, 2) || inputProd1;
   const prod = script({
-    input1: dataProd1Input,
-    input2: dataProd2Input,
+    input1: inputProd1,
+    input2: inputProd2,
   });
 
-  if (!dataTest1Input || !dataTest1Expect) {
-    console.log(`Part 1 TEST data not found.`);
-  } else {
-    test1Timer.start();
-    const result1 = test.next();
-    test1Timer.end();
-    if (result1.value + "" !== dataTest1Expect.trim()) {
-      console.log(
-        `Part 1 TEST failed. Expected:\n${dataTest1Expect.trim()}\nGot:\n${
-          result1.value
-        }\n`
-      );
-    } else {
-      console.log(`Part 1 TEST passed!`);
-    }
-  }
-
-  if (!dataProd1Input) {
-    console.log(`Part 1 PROD data not found.`);
-  } else {
-    prod1Timer.start();
-    const result1 = prod.next();
-    prod1Timer.end();
-    console.log(`Part 1 PROD:\n${result1.value}\n`);
-  }
-
-  if (!dataTest2Input || !dataTest2Expect) {
-    console.log(`Part 2 TEST data not found.`);
-  } else {
-    test2Timer.start();
-    const result2 = test.next();
-    test2Timer.end();
-    if (result2.value + "" !== dataTest2Expect.trim()) {
-      console.log(
-        `Part 2 TEST failed. Expected:\n${dataTest2Expect.trim()}\nGot:\n${
-          result2.value
-        }\n`
-      );
-    } else {
-      console.log(`Part 2 TEST passed!`);
-    }
-  }
-
-  if (!dataProd2Input) {
-    console.log(`Part 2 PROD data not found.`);
-  } else {
-    prod2Timer.start();
-    const result2 = prod.next();
-    prod2Timer.end();
-    console.log(`Part 2 PROD:\n${result2.value}\n`);
-  }
+  let l = "1 TEST";
+  runPart(
+    test,
+    l,
+    timerT1,
+    p.hasTest1 && (inputTest1 || assertTest1),
+    assertTest1
+  );
+  l = "1 PROD";
+  runPart(prod, l, timerP1, p.hasProd1 && inputProd1, null);
+  l = "2 TEST";
+  runPart(
+    test,
+    l,
+    timerT2,
+    p.hasTest2 && (inputTest2 || assertTest2),
+    assertTest2
+  );
+  l = "2 PROD";
+  runPart(prod, l, timerP2, p.hasProd2 && inputProd2, null);
 
   return {
-    test1: test1Timer.end(), // test1Timer ? test1Timer() : () => "-",
-    prod1: prod1Timer.end(), // prod1Timer ? prod1Timer() : () => "-",
-    test2: test2Timer.end(), // test2Timer ? test2Timer() : () => "-",
-    prod2: prod2Timer.end(), // prod2Timer ? prod2Timer() : () => "-",
+    test1: timerT1.end(),
+    prod1: timerP1.end(),
+    test2: timerT2.end(),
+    prod2: timerP2.end(),
   };
 };
 

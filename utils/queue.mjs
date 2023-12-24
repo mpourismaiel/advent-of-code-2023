@@ -37,6 +37,26 @@ export class PriorityQueue {
     }
   }
 
+  shift() {
+    const length = this._items.length;
+    if (length !== 0) {
+      this._swap(0, length - 1);
+      const result = this._items.pop();
+      // Satisfy heap by recursively comparing to child nodes.
+      let parent = 0;
+      while (true) {
+        const child = (parent << 1) + 1;
+        const high = this._priority(this._priority(parent, child), child + 1);
+        if (high === parent) {
+          break;
+        }
+        this._swap(parent, high);
+        parent = high;
+      }
+      return result;
+    }
+  }
+
   _priority(parent, child) {
     return child < this._items.length &&
       this._compare(this._items[parent], this._items[child]) > 0
